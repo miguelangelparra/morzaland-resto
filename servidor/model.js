@@ -1,25 +1,26 @@
 const Sequelize = require('sequelize')
-const sequelize = new Sequelize('mysql://user:pass@host:port/database');
+const sequelize = new Sequelize('mysql://root@localhost:3306/morzalandbd');
 
-sequelize.authenticate().then(async () => {
-  const query = 'SELECT * FROM usuarios';
-  const result = await sequelize.query(query, { raw: true })
+// sequelize.authenticate().then(async () => {
+//   const query = 'SELECT * FROM usuarios';
+//   const result = await sequelize.query(query, { raw: true })
 
-})
+// })
 
-//USERS
-const createUser = (user) => {
+module.exports =  {
+
+ createUser: (user) => {
   sequelize.authenticate().then(async () => {
-    const [document, first_name, last_name, email, phone, address] = user
-    const query = "INSERT INTO users_tb (document, first_name, last_name, email, phone, address) VALUES ('" + document + "','" + first_name + "´,´" + last_name + "','" + email + "','" + "','" + phone + "','" + address + "','" + ")"
+    const {document, first_name, last_name, email, phone, address} = user
+    const query = "INSERT INTO users_tb (document, first_name, last_name, email, phone, address,rol) VALUES ('" + document + "','" + first_name + "´,´" + last_name + "','" + email + "','" + "','" + phone + "','" + address + "','user')"
     const result = await sequelize.query(query, { raw: true })
     return result
   })
-}
-
-const loginUser = (user) => {
+},
+ loginUser : (user) => {
+   console.log(user)
   sequelize.authenticate().then(async () => {
-    const [email, password] = user
+    const {email, password} = user
     const query = "SELECT * FROM users_tb WHERE email='" + email + "'"
     const result = await sequelize.query(query)
     if (result.password == password) {
@@ -39,4 +40,5 @@ const loginUser = (user) => {
     }
 
   })
+}
 }
