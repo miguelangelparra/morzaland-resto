@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
 })
 //USERS
 //LOGIN 
-app.post("user/login", async (req, res) => {
+app.post("/user/login", async (req, res) => {
   try {
-    const authentication = await loginUser(req.user)
+    const authentication = await model.loginUser(req.body)
     if (authentication != false) {
       res.json(authentication)
     }
@@ -33,7 +33,7 @@ app.post("user/login", async (req, res) => {
 app.post("/user/create", async (req, res) => {
   console.log(req.body)
   try {
-    await model.createUser(req.body.user)
+    await  model.createUser(req.body.user)
      res.json({ message: "User was create success" })
   }
   catch (e) {
